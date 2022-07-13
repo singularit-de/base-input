@@ -1,5 +1,5 @@
 import {mount} from 'cypress/vue'
-import BaseInput from './BaseInput.vue'
+import BaseInput from '../BaseInput.vue'
 
 const inputSelector = '[data-testid=base-input]'
 const defaultPlaceholderText = 'Placeholder'
@@ -21,5 +21,14 @@ describe('<BaseInput />', () => {
     mount(BaseInput, {props: {placeholder: defaultPlaceholderText}})
 
     cy.get(inputSelector).should('have.attr', 'placeholder', defaultPlaceholderText)
+  })
+
+  it('should apply styles passed to prop classes', () => {
+    const randomTailwindClasses = ['text-red-500', 'bg-gray-100', 'border-gray-200', 'h-32']
+    mount(BaseInput, {props: {classes: {input: randomTailwindClasses}}})
+
+    randomTailwindClasses.forEach((className) => {
+      cy.get(inputSelector).should('have.class', className)
+    })
   })
 })
