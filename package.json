@@ -2,13 +2,17 @@
   "name": "base-input",
   "private": true,
   "version": "0.0.0",
+  "entry": "src/index.ts",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "npm run test:typescript && npm run test:component",
+    "test:typescript": "vue-tsc --noEmit",
+    "test:component": "cypress run --component"
   },
   "dependencies": {
     "vue": "^3.2.25"

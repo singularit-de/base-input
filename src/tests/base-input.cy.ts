@@ -82,3 +82,4 @@ describe('<BaseInput />', () => {
     cy.get(suffixSelector).should('exist').and('be.visible').and('have.text', defaultSuffixText)
   })
 })
+
