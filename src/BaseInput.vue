@@ -93,7 +93,7 @@ const focusInput = () => {
 
 const blurInput = () => {
   if (inputRef.value)
-    inputRef.value.focus()
+    inputRef.value.blur()
 }
 
 const selectInput = () => {

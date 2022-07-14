@@ -1,10 +1,14 @@
 import {mount} from 'cypress/vue'
 import BaseInput from '../BaseInput.vue'
+import BaseInputTester from './BaseInputTester.vue'
 
 const inputSelector = '[data-testid=base-input-input]'
 const wrapperSelector = '[data-testid=base-input-wrapper]'
 const prefixSelector = '[data-testid=base-input-prefix]'
 const suffixSelector = '[data-testid=base-input-suffix]'
+const focusBtnSelector = '[data-testid=focus-btn]'
+const blurBtnSelector = '[data-testid=blur-btn]'
+const selectBtnSelector = '[data-testid=select-btn]'
 
 const defaultPlaceholderText = 'Placeholder'
 const defaultPrefixText = 'Prefix'
@@ -105,6 +109,32 @@ describe('<BaseInput />', () => {
     cy.get('@update:modelValue').should('have.been.called', 'with', defaultValueText + defaultValueText)
     // should have typed text
     cy.get(inputSelector).should('have.value', defaultValueText + defaultValueText)
+  })
+
+  it('should focus the input via exposed function: focus', () => {
+    mount(BaseInputTester)
+
+    cy.get(focusBtnSelector).should('be.visible').click()
+    cy.get(inputSelector).should('have.focus')
+  })
+
+  it('should blur the input via exposed function: blur', () => {
+    mount(BaseInputTester)
+
+    cy.get(blurBtnSelector).should('be.visible').click()
+    cy.get(focusBtnSelector).should('be.visible').click()
+    cy.get(inputSelector).should('have.focus')
+    cy.wait(2000)
+    cy.get(inputSelector).should('not.have.focus')
+  })
+
+  it('should select the input content via exposed function: select', () => {
+    mount(BaseInputTester)
+    const newText = 'New Text'
+
+    cy.get(selectBtnSelector).should('be.visible').click()
+    cy.get(inputSelector).type(newText)
+    cy.get(inputSelector).should('have.value', newText)
   })
 })
 
