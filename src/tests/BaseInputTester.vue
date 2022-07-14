@@ -2,6 +2,7 @@
   <BaseInput
     ref="inputRef"
     v-model="value"
+    :textarea="textarea"
   />
   <button
     data-testid="focus-btn"
@@ -13,7 +14,7 @@
     data-testid="blur-btn"
     @click="blurInput"
   >
-    Blur after 1 sec
+    Blur after 0.5 sec
   </button>
   <button
     data-testid="select-btn"
@@ -30,6 +31,13 @@ import BaseInput from '../BaseInput.vue'
 
 const value = ref('Hello World')
 
+defineProps({
+  textarea: {
+    type: Boolean,
+    default: false,
+  },
+})
+
 const inputRef = ref()
 
 const focusInput = () => {
@@ -41,7 +49,7 @@ const blurInput = () => {
   if (inputRef.value) {
     setTimeout(() => {
       inputRef.value.blur()
-    }, 1000)
+    }, 500)
   }
 }
 

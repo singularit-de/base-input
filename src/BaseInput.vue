@@ -13,16 +13,22 @@
     </div>
 
     <input
-      id="username"
+      v-if="!textarea"
       ref="inputRef"
       v-model="value"
       data-testid="base-input-input"
-      class="appearance-none focus:outline-none w-full"
       :class="theme.input"
-      type="text"
       :placeholder="placeholder"
       v-bind="inputAttributes"
     >
+    <textarea
+      v-else
+      ref="inputRef"
+      v-model="value"
+      :placeholder="placeholder"
+      :class="theme.input"
+      data-testid="base-input-textarea"
+    />
     <div
       v-if="$slots.suffix"
       data-testid="base-input-suffix"
@@ -35,7 +41,7 @@
 
 <script setup lang="ts">
 
-import type {InputHTMLAttributes, PropType} from 'vue'
+import type {InputHTMLAttributes, PropType, TextareaHTMLAttributes} from 'vue'
 import {computed, ref} from 'vue'
 import type {InputClasses} from './interface'
 import useMergedClassesRef from './utils/useMergedClasses'
@@ -46,7 +52,7 @@ const props = defineProps({
     default: undefined,
   },
   inputAttributes: {
-    type: Object as PropType<InputHTMLAttributes>,
+    type: Object as PropType<InputHTMLAttributes | TextareaHTMLAttributes>,
     default: undefined,
   },
   classes: {
@@ -56,6 +62,10 @@ const props = defineProps({
   modelValue: {
     type: String,
     default: undefined,
+  },
+  textarea: {
+    type: Boolean,
+    default: false,
   },
 })
 
