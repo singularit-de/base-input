@@ -9,6 +9,7 @@ const suffixSelector = '[data-testid=base-input-suffix]'
 const defaultPlaceholderText = 'Placeholder'
 const defaultPrefixText = 'Prefix'
 const defaultSuffixText = 'Suffix'
+const defaultValueText = 'Hello World!'
 
 const randomTailwindClasses = ['text-red-500', 'bg-gray-100', 'border-gray-200', 'h-32']
 
@@ -80,6 +81,30 @@ describe('<BaseInput />', () => {
     mount(BaseInput, {slots: {suffix: () => defaultSuffixText}})
 
     cy.get(suffixSelector).should('exist').and('be.visible').and('have.text', defaultSuffixText)
+  })
+
+  it('should work uncontrolled if modelValue is undefined', () => {
+    const onUpdateModelValueSpy = cy.spy().as('update:modelValue')
+
+    mount(BaseInput, {props: {'onUpdate:modelValue': onUpdateModelValueSpy}})
+
+    cy.get(inputSelector).type(defaultValueText)
+    // should not emit 'update:modelValue'
+    cy.get('@update:modelValue').should('not.have.been.called')
+    // should have typed text
+    cy.get(inputSelector).should('have.value', defaultValueText)
+  })
+
+  it('should work controlled with modelValue', () => {
+    const onUpdateModelValueSpy = cy.spy().as('update:modelValue')
+
+    mount(BaseInput, {props: {'modelValue': defaultValueText, 'onUpdate:modelValue': onUpdateModelValueSpy}})
+
+    cy.get(inputSelector).type(defaultValueText)
+    // should emit 'update:modelValue'
+    cy.get('@update:modelValue').should('have.been.called', 'with', defaultValueText + defaultValueText)
+    // should have typed text
+    cy.get(inputSelector).should('have.value', defaultValueText + defaultValueText)
   })
 })
 
