@@ -60,11 +60,6 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: success()
         with:
-          name: node_modules
-          path: node_modules
-      - uses: actions/upload-artifact@v2
-        if: success()
-        with:
           name: dist
           path: dist
       - uses: actions/upload-artifact@v2
