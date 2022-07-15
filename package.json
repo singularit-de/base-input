@@ -17,6 +17,13 @@
     "test:typescript": "vue-tsc --noEmit",
     "test:component": "cypress run --component"
   },
+  "keywords": [
+    "singularIT",
+    "vue",
+    "tailwindcss",
+    "tailwind",
+    "input"
+  ],
   "dependencies": {
     "vue": "^3.2.25"
   },
