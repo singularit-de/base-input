@@ -43,7 +43,7 @@
 <script setup lang="ts">
 import type {InputHTMLAttributes, PropType, TextareaHTMLAttributes} from 'vue'
 import {computed, ref} from 'vue'
-import type {InputClasses, InputType} from './interface'
+import type {InputClass, InputType} from './interface'
 import useMergedClassesRef from './utils/useMergedClasses'
 
 const props = defineProps({
@@ -52,7 +52,7 @@ const props = defineProps({
     default: undefined,
   },
   classes: {
-    type: Object as PropType<Partial<InputClasses>>,
+    type: Object as PropType<Partial<InputClass>>,
     default: () => ({}),
   },
   modelValue: {

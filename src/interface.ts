@@ -1,4 +1,4 @@
-export interface InputClasses {
+export interface InputClass {
   wrapper: string | string[]
   input: string | string[]
   prefix: string | string[]
