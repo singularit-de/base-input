@@ -24,13 +24,12 @@ const name = ref('')
 
 ## Props
 
-| Prop            | Type          | Default      | Description                                             |
-|-----------------|---------------|--------------|---------------------------------------------------------|
-| placeholder     | `string`      | `undefined`  |                                                         |
-| modelValue      | `string`      | `undefined`  |                                                         |
-| textarea        | `boolean`     | `undefined`  |                                                         |
-| inputAttributes | `object`      | `undefined`  | you can pass any HTML attributes to the input/textarea  |
-| classes         | `string`      | `{}`         | used to override styling of input and children elements |
+| Prop            | Type     | Default     | Description                                             |
+|-----------------|----------|-------------|---------------------------------------------------------|
+| modelValue      | `string` | `undefined` |                                                         |
+| type            | `string` | `text`      | TODO                                                    |
+| inputAttributes | `object` | `undefined` | you can pass any HTML attributes to the input/textarea  |
+| classes         | `string` | `{}`        | used to override styling of input and children elements |
 
 ## Styling
 
@@ -44,7 +43,7 @@ you can use the `classes` prop to pass any calles (e.g. tailwind classes).
 `SBaseInput` is designed to be wrapped in a component inside you project. Due to its flexibility it is very adaptable.
 You can also create simple number inputs, text inputs, textareas, etc. (use the `inputAttributes` prop to pass any HTML attributes).
 
-See [interface `InputClasses`](/src/interface.ts).
+See [interface `InputClass`](/src/interface.ts).
 
 ## Examples
 coming soon

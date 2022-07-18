@@ -19,6 +19,7 @@
       data-testid="base-input-input"
       :class="theme.input"
       v-bind="inputAttrs"
+      @change="handleChange"
     >
     <textarea
       v-if="type === 'textarea'"
@@ -27,6 +28,7 @@
       :class="theme.input"
       data-testid="base-input-textarea"
       v-bind="textareaAttrs"
+      @change="handleChange"
     />
     <div
       v-if="$slots.suffix"
@@ -41,7 +43,7 @@
 <script setup lang="ts">
 import type {InputHTMLAttributes, PropType, TextareaHTMLAttributes} from 'vue'
 import {computed, ref} from 'vue'
-import type {HTMLInputTypeAttribute, InputClasses} from './interface'
+import type {InputClass, InputType} from './interface'
 import useMergedClassesRef from './utils/useMergedClasses'
 
 const props = defineProps({
@@ -50,15 +52,15 @@ const props = defineProps({
     default: undefined,
   },
   classes: {
-    type: Object as PropType<Partial<InputClasses>>,
+    type: Object as PropType<Partial<InputClass>>,
     default: () => ({}),
   },
   modelValue: {
-    type: String,
+    type: [String, Number],
     default: undefined,
   },
   type: {
-    type: String as PropType<HTMLInputTypeAttribute | 'textarea'>,
+    type: String as PropType<InputType>,
     default: 'text',
   },
 })
@@ -80,6 +82,7 @@ const model = ref('')
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: typeof props.modelValue): void
+  (e: 'change', event: Event): void
 }>()
 
 const isUncontrolled = computed(() => props.modelValue === undefined)
@@ -116,6 +119,10 @@ const selectInput = () => {
 
 const handleWrapperClick = () => {
   focusInput()
+}
+
+const handleChange = (e: Event) => {
+  emit('change', e)
 }
 
 defineExpose({

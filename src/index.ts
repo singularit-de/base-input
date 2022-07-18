@@ -5,5 +5,6 @@ export {default as SBaseInput} from './BaseInput.vue'
 export * from './utils'
 
 export type{
-  InputClasses,
+  InputClass,
+  InputType,
 } from './interface'
