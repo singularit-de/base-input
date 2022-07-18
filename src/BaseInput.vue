@@ -52,7 +52,11 @@ const props = defineProps({
     default: undefined,
   },
   inputAttributes: {
-    type: Object as PropType<InputHTMLAttributes | TextareaHTMLAttributes>,
+    type: Object as PropType<InputHTMLAttributes>,
+    default: undefined,
+  },
+  textareaAttributes: {
+    type: Object as PropType<TextareaHTMLAttributes>,
     default: undefined,
   },
   classes: {
