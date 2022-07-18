@@ -25,7 +25,6 @@
       ref="inputRef"
       v-model="value"
       :class="theme.input"
-      v-bind="textareaAttributes"
       data-testid="base-input-textarea"
       v-bind="textareaAttrs"
     />
