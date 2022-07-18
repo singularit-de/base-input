@@ -24,13 +24,12 @@ const name = ref('')
 
 ## Props
 
-| Prop            | Type          | Default      | Description                                             |
-|-----------------|---------------|--------------|---------------------------------------------------------|
-| placeholder     | `string`      | `undefined`  |                                                         |
-| modelValue      | `string`      | `undefined`  |                                                         |
-| textarea        | `boolean`     | `undefined`  |                                                         |
-| inputAttributes | `object`      | `undefined`  | you can pass any HTML attributes to the input/textarea  |
-| classes         | `string`      | `{}`         | used to override styling of input and children elements |
+| Prop            | Type     | Default     | Description                                             |
+|-----------------|----------|-------------|---------------------------------------------------------|
+| modelValue      | `string` | `undefined` |                                                         |
+| type            | `string` | `text`      | TODO                                                    |
+| inputAttributes | `object` | `undefined` | you can pass any HTML attributes to the input/textarea  |
+| classes         | `string` | `{}`        | used to override styling of input and children elements |
 
 ## Styling
 
