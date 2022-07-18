@@ -27,6 +27,7 @@
       v-model="value"
       :placeholder="placeholder"
       :class="theme.input"
+      v-bind="textareaAttributes"
       data-testid="base-input-textarea"
     />
     <div
