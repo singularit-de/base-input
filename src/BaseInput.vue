@@ -11,23 +11,21 @@
     >
       <slot name="prefix" />
     </div>
-
     <input
-      v-if="!textarea"
+      v-if="type !== 'textarea'"
       ref="inputRef"
       v-model="value"
+      :type="type"
       data-testid="base-input-input"
       :class="theme.input"
-      :placeholder="placeholder"
       v-bind="inputAttributes"
     >
     <textarea
-      v-else
+      v-if="type === 'textarea'"
       ref="inputRef"
       v-model="value"
-      :placeholder="placeholder"
       :class="theme.input"
-      v-bind="textareaAttributes"
+      v-bind="inputAttributes"
       data-testid="base-input-textarea"
     />
     <div
@@ -44,20 +42,13 @@
 
 import type {InputHTMLAttributes, PropType, TextareaHTMLAttributes} from 'vue'
 import {computed, ref} from 'vue'
+import type {HTMLInputTypeAttribute} from 'react'
 import type {InputClasses} from './interface'
 import useMergedClassesRef from './utils/useMergedClasses'
 
 const props = defineProps({
-  placeholder: {
-    type: String,
-    default: undefined,
-  },
   inputAttributes: {
-    type: Object as PropType<InputHTMLAttributes>,
-    default: undefined,
-  },
-  textareaAttributes: {
-    type: Object as PropType<TextareaHTMLAttributes>,
+    type: Object as PropType<Omit<InputHTMLAttributes, 'type'> | TextareaHTMLAttributes>,
     default: undefined,
   },
   classes: {
@@ -68,9 +59,9 @@ const props = defineProps({
     type: String,
     default: undefined,
   },
-  textarea: {
-    type: Boolean,
-    default: false,
+  type: {
+    type: String as PropType<HTMLInputTypeAttribute | 'textarea'>,
+    default: 'text',
   },
 })
 

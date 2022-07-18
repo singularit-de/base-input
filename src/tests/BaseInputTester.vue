@@ -2,7 +2,7 @@
   <BaseInput
     ref="inputRef"
     v-model="value"
-    :textarea="textarea"
+    :type="textarea ? 'textarea' : 'text'"
   />
   <button
     data-testid="focus-btn"

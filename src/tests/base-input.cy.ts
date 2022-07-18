@@ -33,7 +33,7 @@ describe('<BaseInput />', () => {
   })
 
   it('should show placeholder', () => {
-    mount(BaseInput, {props: {placeholder: defaultPlaceholderText}})
+    mount(BaseInput, {props: {inputAttributes: {placeholder: defaultPlaceholderText}}})
 
     cy.get(inputSelector).should('have.attr', 'placeholder', defaultPlaceholderText)
   })
@@ -140,20 +140,20 @@ describe('<BaseInput />', () => {
   })
 
   it('textarea is visible, input not', () => {
-    mount(BaseInput, {props: {textarea: true}})
+    mount(BaseInput, {props: {type: 'textarea'}})
 
     cy.get(textareaSelector).should('exist').and('be.visible')
     cy.get(inputSelector).should('not.exist')
   })
 
   it('textarea should show placeholder', () => {
-    mount(BaseInput, {props: {textarea: true, placeholder: defaultPlaceholderText}})
+    mount(BaseInput, {props: {type: 'textarea', inputAttributes: {placeholder: defaultPlaceholderText}}})
 
     cy.get(textareaSelector).should('have.attr', 'placeholder', defaultPlaceholderText)
   })
 
   it('textarea should apply styles passed to prop classes.input', () => {
-    mount(BaseInput, {props: {textarea: true, classes: {input: randomTailwindClasses}}})
+    mount(BaseInput, {props: {type: 'textarea', classes: {input: randomTailwindClasses}}})
 
     randomTailwindClasses.forEach((className) => {
       cy.get(textareaSelector).should('have.class', className)
@@ -161,13 +161,13 @@ describe('<BaseInput />', () => {
   })
 
   it('textarea renders prefix if passed via slot', () => {
-    mount(BaseInput, {slots: {prefix: () => defaultPrefixText}, props: {textarea: true}})
+    mount(BaseInput, {slots: {prefix: () => defaultPrefixText}, props: {type: 'textarea'}})
 
     cy.get(prefixSelector).should('exist').and('be.visible').and('have.text', defaultPrefixText)
   })
 
   it('textarea renders suffix if passed via slot', () => {
-    mount(BaseInput, {slots: {suffix: () => defaultSuffixText}, props: {textarea: true}})
+    mount(BaseInput, {slots: {suffix: () => defaultSuffixText}, props: {type: 'textarea'}})
 
     cy.get(suffixSelector).should('exist').and('be.visible').and('have.text', defaultSuffixText)
   })
@@ -175,7 +175,7 @@ describe('<BaseInput />', () => {
   it('textarea should work uncontrolled if modelValue is undefined', () => {
     const onUpdateModelValueSpy = cy.spy().as('update:modelValue')
 
-    mount(BaseInput, {props: {'onUpdate:modelValue': onUpdateModelValueSpy, 'textarea': true}})
+    mount(BaseInput, {props: {'onUpdate:modelValue': onUpdateModelValueSpy, 'type': 'textarea'}})
 
     cy.get(textareaSelector).type(defaultValueText)
     // should not emit 'update:modelValue'
@@ -187,7 +187,7 @@ describe('<BaseInput />', () => {
   it('textarea should work controlled with modelValue', () => {
     const onUpdateModelValueSpy = cy.spy().as('update:modelValue')
 
-    mount(BaseInput, {props: {'modelValue': defaultValueText, 'onUpdate:modelValue': onUpdateModelValueSpy, 'textarea': true}})
+    mount(BaseInput, {props: {'modelValue': defaultValueText, 'onUpdate:modelValue': onUpdateModelValueSpy, 'type': 'textarea'}})
 
     cy.get(textareaSelector).type(defaultValueText)
     // should emit 'update:modelValue'
@@ -228,8 +228,8 @@ describe('<BaseInput />', () => {
     cy.get(inputSelector).should('have.attr', 'placeholder', defaultPlaceholderText).and('have.attr', 'id', '123')
   })
 
-  it('should apply textareaAttributes to textarea', () => {
-    mount(BaseInput, {props: {textarea: true, textareaAttributes: {placeholder: defaultPlaceholderText, id: '123', rows: 10}}})
+  it('should apply inputAttributes to textarea', () => {
+    mount(BaseInput, {props: {type: 'textarea', inputAttributes: {placeholder: defaultPlaceholderText, id: '123', rows: 10}}})
 
     cy.get(textareaSelector).should('have.attr', 'placeholder', defaultPlaceholderText).and('have.attr', 'id', '123').and('have.attr', 'rows', '10')
   })
