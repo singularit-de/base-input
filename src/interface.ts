@@ -5,7 +5,7 @@ export interface InputClasses {
   suffix: string | string[]
 }
 
-export type HTMLInputTypeAttribute =
+type HTMLInputTypeAttribute =
     | 'button'
     | 'checkbox'
     | 'color'
@@ -29,3 +29,5 @@ export type HTMLInputTypeAttribute =
     | 'url'
     | 'week'
     | string
+
+export type InputType = Exclude<HTMLInputTypeAttribute, 'radio' | 'button' | 'checkbox' | 'image' | 'reset' | 'submit'> | 'textarea'
