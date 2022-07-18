@@ -221,5 +221,17 @@ describe('<BaseInput />', () => {
     cy.get(textareaSelector).type(newText)
     cy.get(textareaSelector).should('have.value', newText)
   })
+
+  it('should apply inputAttributes to input', () => {
+    mount(BaseInput, {props: {inputAttributes: {placeholder: defaultPlaceholderText, id: '123'}}})
+
+    cy.get(inputSelector).should('have.attr', 'placeholder', defaultPlaceholderText).and('have.attr', 'id', '123')
+  })
+
+  it('should apply textareaAttributes to textarea', () => {
+    mount(BaseInput, {props: {textarea: true, textareaAttributes: {placeholder: defaultPlaceholderText, id: '123', rows: 10}}})
+
+    cy.get(textareaSelector).should('have.attr', 'placeholder', defaultPlaceholderText).and('have.attr', 'id', '123').and('have.attr', 'rows', '10')
+  })
 })
 
