@@ -43,7 +43,7 @@ you can use the `classes` prop to pass any calles (e.g. tailwind classes).
 `SBaseInput` is designed to be wrapped in a component inside you project. Due to its flexibility it is very adaptable.
 You can also create simple number inputs, text inputs, textareas, etc. (use the `inputAttributes` prop to pass any HTML attributes).
 
-See [interface `InputClasses`](/src/interface.ts).
+See [interface `InputClass`](/src/interface.ts).
 
 ## Examples
 coming soon
