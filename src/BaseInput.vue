@@ -18,15 +18,15 @@
       :type="type"
       data-testid="base-input-input"
       :class="theme.input"
-      v-bind="inputAttributes"
+      v-bind="inputAttrs"
     >
     <textarea
       v-if="type === 'textarea'"
       ref="inputRef"
       v-model="value"
       :class="theme.input"
-      v-bind="inputAttributes"
       data-testid="base-input-textarea"
+      v-bind="textareaAttrs"
     />
     <div
       v-if="$slots.suffix"
@@ -39,11 +39,9 @@
 </template>
 
 <script setup lang="ts">
-
 import type {InputHTMLAttributes, PropType, TextareaHTMLAttributes} from 'vue'
 import {computed, ref} from 'vue'
-import type {HTMLInputTypeAttribute} from 'react'
-import type {InputClasses} from './interface'
+import type {HTMLInputTypeAttribute, InputClasses} from './interface'
 import useMergedClassesRef from './utils/useMergedClasses'
 
 const props = defineProps({
@@ -63,6 +61,15 @@ const props = defineProps({
     type: String as PropType<HTMLInputTypeAttribute | 'textarea'>,
     default: 'text',
   },
+})
+
+// TODO: temporary workaround for https://github.com/vuejs/core/pull/6294
+const inputAttrs = computed(() => {
+  return props.inputAttributes as InputHTMLAttributes
+})
+
+const textareaAttrs = computed(() => {
+  return props.inputAttributes as TextareaHTMLAttributes
 })
 
 const theme = useMergedClassesRef(props.classes)
