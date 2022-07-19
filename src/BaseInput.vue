@@ -132,11 +132,13 @@ const handleChange = (e: Event) => {
   const targetValue = target.value
   let val: typeof props.modelValue = targetValue
 
-  if (props.type === 'number') {
-    if (targetValue === '')
-      val = undefined
-    else
-      val = +val
+  switch (props.type) {
+    case 'number':
+      if (targetValue === '')
+        val = undefined
+      else
+        val = +val
+      break
   }
 
   emit('change', val)
@@ -150,11 +152,13 @@ const handleInput = (e: Event) => {
   const targetValue = target.value
   let val: typeof props.modelValue = targetValue
 
-  if (props.type === 'number') {
-    if (targetValue === '')
-      val = undefined
-    else
-      val = +val
+  switch (props.type) {
+    case 'number':
+      if (targetValue === '')
+        val = undefined
+      else
+        val = +val
+      break
   }
 
   emit('input', val)
