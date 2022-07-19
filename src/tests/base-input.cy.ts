@@ -10,6 +10,8 @@ const suffixSelector = '[data-testid=base-input-suffix]'
 const focusBtnSelector = '[data-testid=focus-btn]'
 const blurBtnSelector = '[data-testid=blur-btn]'
 const selectBtnSelector = '[data-testid=select-btn]'
+const resetBtnSelector = '[data-testid=reset-btn]'
+const inputTesterValueSelector = '[data-testid=input-tester-value]'
 
 const defaultPlaceholderText = 'Placeholder'
 const defaultPrefixText = 'Prefix'
@@ -90,13 +92,9 @@ describe('<BaseInput />', () => {
   })
 
   it('should work uncontrolled if modelValue is undefined', () => {
-    const onUpdateModelValueSpy = cy.spy().as('update:modelValue')
-
-    mount(BaseInput, {props: {'onUpdate:modelValue': onUpdateModelValueSpy}})
+    mount(BaseInput)
 
     cy.get(inputSelector).type(defaultValueText)
-    // should not emit 'update:modelValue'
-    cy.get('@update:modelValue').should('not.have.been.called')
     // should have typed text
     cy.get(inputSelector).should('have.value', defaultValueText)
   })
@@ -173,13 +171,9 @@ describe('<BaseInput />', () => {
   })
 
   it('textarea should work uncontrolled if modelValue is undefined', () => {
-    const onUpdateModelValueSpy = cy.spy().as('update:modelValue')
-
-    mount(BaseInput, {props: {'onUpdate:modelValue': onUpdateModelValueSpy, 'type': 'textarea'}})
+    mount(BaseInput, {props: {type: 'textarea'}})
 
     cy.get(textareaSelector).type(defaultValueText)
-    // should not emit 'update:modelValue'
-    cy.get('@update:modelValue').should('not.have.been.called')
     // should have typed text
     cy.get(textareaSelector).should('have.value', defaultValueText)
   })
@@ -232,6 +226,18 @@ describe('<BaseInput />', () => {
     mount(BaseInput, {props: {type: 'textarea', inputAttributes: {placeholder: defaultPlaceholderText, id: '123', rows: 10}}})
 
     cy.get(textareaSelector).should('have.attr', 'placeholder', defaultPlaceholderText).and('have.attr', 'id', '123').and('have.attr', 'rows', '10')
+  })
+
+  it('should reset internal value if modelValue is set to undefined', () => {
+    mount(BaseInputTester, {props: {modelValue: defaultValueText}})
+
+    cy.get(inputSelector).type(`${defaultValueText}1`)
+    cy.get(resetBtnSelector).should('be.visible').click()
+    cy.get(inputTesterValueSelector).should('have.text', '')
+    cy.get(inputSelector).should('have.value', '')
+    cy.get(inputSelector).type(defaultValueText)
+    cy.get(inputSelector).should('have.value', defaultValueText)
+    cy.get(inputTesterValueSelector).should('have.text', defaultValueText)
   })
 })
 

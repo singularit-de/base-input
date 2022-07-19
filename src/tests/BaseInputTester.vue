@@ -22,6 +22,13 @@
   >
     Select
   </button>
+  <button
+    data-testid="reset-btn"
+    @click="resetInput"
+  >
+    reset value
+  </button>
+  <pre data-testid="input-tester-value">{{ value }}</pre>
 </template>
 
 <script setup lang="ts">
@@ -29,7 +36,7 @@
 import {ref} from 'vue'
 import BaseInput from '../BaseInput.vue'
 
-const value = ref('Hello World')
+const value = ref<string | undefined>('Hello World')
 
 defineProps({
   textarea: {
@@ -56,6 +63,10 @@ const blurInput = () => {
 const selectInput = () => {
   if (inputRef.value)
     inputRef.value.select()
+}
+
+const resetInput = () => {
+  value.value = undefined
 }
 
 </script>
