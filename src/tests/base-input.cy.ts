@@ -258,6 +258,15 @@ describe('<BaseInput />', () => {
     cy.get('@update:modelValue').should('have.been.called', 'with', undefined)
   })
 
-  // TODO: modifier tests needed
+  it('should work with lazy modifier', () => {
+    const onUpdateModelValueSpy = cy.spy().as('update:modelValue')
+    mount(BaseInput, {props: {'onUpdate:modelValue': onUpdateModelValueSpy, 'modelModifiers': {lazy: true}}})
+
+    cy.get(inputSelector).type(defaultValueText)
+    cy.get(inputSelector).should('have.value', defaultValueText)
+    cy.get('@update:modelValue').should('not.have.been.called')
+    cy.get(inputSelector).blur()
+    cy.get('@update:modelValue').should('have.been.called', 'with', defaultValueText)
+  })
 })
 
