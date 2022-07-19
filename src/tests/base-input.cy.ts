@@ -17,6 +17,7 @@ const defaultPlaceholderText = 'Placeholder'
 const defaultPrefixText = 'Prefix'
 const defaultSuffixText = 'Suffix'
 const defaultValueText = 'Hello World!'
+const defaultValueNumber = 1234
 
 const randomTailwindClasses = ['text-red-500', 'bg-gray-100', 'border-gray-200', 'h-32']
 
@@ -242,6 +243,19 @@ describe('<BaseInput />', () => {
     cy.get(inputSelector).type(defaultValueText)
     cy.get(inputSelector).should('have.value', defaultValueText)
     cy.get(inputTesterValueSelector).should('have.text', defaultValueText)
+  })
+
+  it('should return a number if type is set to number', () => {
+    const onUpdateModelValueSpy = cy.spy().as('update:modelValue')
+    mount(BaseInput, {props: {'type': 'number', 'onUpdate:modelValue': onUpdateModelValueSpy}})
+
+    cy.get(inputSelector).type(String(defaultValueNumber))
+    cy.get(inputSelector).should('have.value', String(defaultValueNumber))
+
+    cy.get('@update:modelValue').should('have.been.called', 'with', defaultValueNumber)
+
+    cy.get(inputSelector).clear()
+    cy.get('@update:modelValue').should('have.been.called', 'with', undefined)
   })
 
   // TODO: modifier tests needed
