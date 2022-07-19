@@ -86,8 +86,8 @@ const inputRef = ref<HTMLInputElement | null>(null)
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: typeof props.modelValue): void
-  (e: 'change', event: InputEvent): void
-  (e: 'input', event: InputEvent): void
+  (e: 'change', value: typeof props.modelValue): void
+  (e: 'input', value: typeof props.modelValue): void
 }>()
 
 const value = computed<string | number | undefined>({
@@ -128,20 +128,38 @@ defineExpose({
 
 const handleChange = (e: Event) => {
   const event = e as InputEvent
-  emit('change', event)
-  if (isLazy.value) {
-    const target = event.target
-    value.value = target.value
+  const target = event.target
+  const targetValue = target.value
+  let val: typeof props.modelValue = targetValue
+
+  if (props.type === 'number') {
+    if (targetValue === '')
+      val = undefined
+    else
+      val = +val
   }
+
+  emit('change', val)
+  if (isLazy.value)
+    value.value = val
 }
 
 const handleInput = (e: Event) => {
   const event = e as InputEvent
-  emit('input', event)
-  if (!isLazy.value) {
-    const target = event.target
-    value.value = target.value
+  const target = event.target
+  const targetValue = target.value
+  let val: typeof props.modelValue = targetValue
+
+  if (props.type === 'number') {
+    if (targetValue === '')
+      val = undefined
+    else
+      val = +val
   }
+
+  emit('input', val)
+  if (!isLazy.value)
+    value.value = val
 }
 
 </script>
