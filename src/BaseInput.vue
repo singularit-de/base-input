@@ -86,8 +86,8 @@ const inputRef = ref<HTMLInputElement | null>(null)
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: typeof props.modelValue): void
-  (e: 'change', event: Event): void
-  (e: 'input', event: Event): void
+  (e: 'change', event: Event & {target: HTMLTextAreaElement | HTMLInputElement}): void
+  (e: 'input', event: Event & {target: HTMLTextAreaElement | HTMLInputElement}): void
 }>()
 
 const value = computed<string | number | undefined>({
@@ -127,17 +127,19 @@ defineExpose({
 })
 
 const handleChange = (e: Event) => {
-  emit('change', e)
+  const event = e as Event & {target: HTMLTextAreaElement | HTMLInputElement}
+  emit('change', event)
   if (isLazy.value) {
-    const target = e.target as HTMLTextAreaElement | HTMLInputElement
+    const target = event.target
     value.value = target.value
   }
 }
 
 const handleInput = (e: Event) => {
-  emit('input', e)
+  const event = e as Event & {target: HTMLTextAreaElement | HTMLInputElement}
+  emit('input', event)
   if (!isLazy.value) {
-    const target = e.target as HTMLTextAreaElement | HTMLInputElement
+    const target = event.target
     value.value = target.value
   }
 }
