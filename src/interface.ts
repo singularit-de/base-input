@@ -31,3 +31,5 @@ type HTMLInputTypeAttribute =
     | string
 
 export type InputType = Exclude<HTMLInputTypeAttribute, 'radio' | 'button' | 'checkbox' | 'image' | 'reset' | 'submit'> | 'textarea'
+
+export type InputEvent = Event & {target: HTMLTextAreaElement | HTMLInputElement}

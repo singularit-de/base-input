@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import type {InputHTMLAttributes, PropType, TextareaHTMLAttributes} from 'vue'
 import {computed, ref} from 'vue'
-import type {InputClass, InputType} from './interface'
+import type {InputClass, InputEvent, InputType} from './interface'
 import useMergedClassesRef from './utils/useMergedClasses'
 
 const props = defineProps({
@@ -86,8 +86,8 @@ const inputRef = ref<HTMLInputElement | null>(null)
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: typeof props.modelValue): void
-  (e: 'change', event: Event & {target: HTMLTextAreaElement | HTMLInputElement}): void
-  (e: 'input', event: Event & {target: HTMLTextAreaElement | HTMLInputElement}): void
+  (e: 'change', event: InputEvent): void
+  (e: 'input', event: InputEvent): void
 }>()
 
 const value = computed<string | number | undefined>({
@@ -127,7 +127,7 @@ defineExpose({
 })
 
 const handleChange = (e: Event) => {
-  const event = e as Event & {target: HTMLTextAreaElement | HTMLInputElement}
+  const event = e as InputEvent
   emit('change', event)
   if (isLazy.value) {
     const target = event.target
@@ -136,7 +136,7 @@ const handleChange = (e: Event) => {
 }
 
 const handleInput = (e: Event) => {
-  const event = e as Event & {target: HTMLTextAreaElement | HTMLInputElement}
+  const event = e as InputEvent
   emit('input', event)
   if (!isLazy.value) {
     const target = event.target
