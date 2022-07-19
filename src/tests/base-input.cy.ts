@@ -244,8 +244,6 @@ describe('<BaseInput />', () => {
     cy.get(inputTesterValueSelector).should('have.text', defaultValueText)
   })
 
-  it('test', () => {
-    mount(BaseInput)
-  })
+  // TODO: modifier tests needed
 })
 
