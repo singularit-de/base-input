@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
 import type {InputHTMLAttributes, PropType, TextareaHTMLAttributes} from 'vue'
-import {computed, ref} from 'vue'
+import {computed, ref, watch} from 'vue'
 import type {InputClass, InputType} from './interface'
 import useMergedClassesRef from './utils/useMergedClasses'
 
@@ -78,7 +78,7 @@ const theme = useMergedClassesRef(props.classes)
 
 const inputRef = ref<HTMLInputElement | null>(null)
 
-const model = ref('')
+const internalModel = ref<undefined | number | string>(undefined)
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: typeof props.modelValue): void
@@ -87,18 +87,21 @@ const emit = defineEmits<{
 
 const isUncontrolled = computed(() => props.modelValue === undefined)
 
-const value = computed<string>({
+watch(props, (p) => {
+  if (p.modelValue === undefined)
+    internalModel.value = undefined
+})
+
+const value = computed<string | number | undefined>({
   get() {
     if (!isUncontrolled.value)
-      return props.modelValue as string
+      return props.modelValue
     else
-      return model.value
+      return internalModel.value
   },
   set(value) {
-    if (!isUncontrolled.value)
-      emit('update:modelValue', value)
-    else
-      model.value = value
+    emit('update:modelValue', value)
+    internalModel.value = value
   },
 })
 
