@@ -92,10 +92,12 @@ describe('<BaseInput />', () => {
   })
 
   it('should work uncontrolled if modelValue is undefined', () => {
-    mount(BaseInput)
+    const onUpdateModelValueSpy = cy.spy().as('update:modelValue')
+    mount(BaseInput, {props: {'onUpdate:modelValue': onUpdateModelValueSpy}})
 
     cy.get(inputSelector).type(defaultValueText)
     // should have typed text
+    cy.get('@update:modelValue').should('have.been.called', 'with', defaultValueText)
     cy.get(inputSelector).should('have.value', defaultValueText)
   })
 
@@ -171,10 +173,12 @@ describe('<BaseInput />', () => {
   })
 
   it('textarea should work uncontrolled if modelValue is undefined', () => {
-    mount(BaseInput, {props: {type: 'textarea'}})
+    const onUpdateModelValueSpy = cy.spy().as('update:modelValue')
+    mount(BaseInput, {props: {'type': 'textarea', 'onUpdate:modelValue': onUpdateModelValueSpy}})
 
     cy.get(textareaSelector).type(defaultValueText)
     // should have typed text
+    cy.get('@update:modelValue').should('have.been.called', 'with', defaultValueText)
     cy.get(textareaSelector).should('have.value', defaultValueText)
   })
 
