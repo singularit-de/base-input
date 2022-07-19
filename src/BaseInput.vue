@@ -14,21 +14,23 @@
     <input
       v-if="type !== 'textarea'"
       ref="inputRef"
-      v-model="value"
+      :value="value"
       :type="type"
       data-testid="base-input-input"
       :class="theme.input"
       v-bind="inputAttrs"
       @change="handleChange"
+      @input="handleInput"
     >
     <textarea
       v-if="type === 'textarea'"
       ref="inputRef"
-      v-model="value"
+      :value="value"
       :class="theme.input"
       data-testid="base-input-textarea"
       v-bind="textareaAttrs"
       @change="handleChange"
+      @input="handleInput"
     />
     <div
       v-if="$slots.suffix"
@@ -42,7 +44,7 @@
 
 <script setup lang="ts">
 import type {InputHTMLAttributes, PropType, TextareaHTMLAttributes} from 'vue'
-import {computed, ref, watch} from 'vue'
+import {computed, ref} from 'vue'
 import type {InputClass, InputType} from './interface'
 import useMergedClassesRef from './utils/useMergedClasses'
 
@@ -63,6 +65,10 @@ const props = defineProps({
     type: String as PropType<InputType>,
     default: 'text',
   },
+  modelModifiers: {
+    type: Object as PropType<Record<'lazy', boolean>>,
+    default: () => ({}),
+  },
 })
 
 // TODO: temporary workaround for https://github.com/vuejs/core/pull/6294
@@ -78,30 +84,18 @@ const theme = useMergedClassesRef(props.classes)
 
 const inputRef = ref<HTMLInputElement | null>(null)
 
-const internalModel = ref<undefined | number | string>(undefined)
-
 const emit = defineEmits<{
   (e: 'update:modelValue', value: typeof props.modelValue): void
   (e: 'change', event: Event): void
+  (e: 'input', event: Event): void
 }>()
-
-const isUncontrolled = computed(() => props.modelValue === undefined)
-
-watch(props, (p) => {
-  if (p.modelValue === undefined)
-    internalModel.value = undefined
-})
 
 const value = computed<string | number | undefined>({
   get() {
-    if (!isUncontrolled.value)
-      return props.modelValue
-    else
-      return internalModel.value
+    return props.modelValue
   },
   set(value) {
     emit('update:modelValue', value)
-    internalModel.value = value
   },
 })
 
@@ -124,14 +118,28 @@ const handleWrapperClick = () => {
   focusInput()
 }
 
-const handleChange = (e: Event) => {
-  emit('change', e)
-}
+const isLazy = computed(() => !!props.modelModifiers.lazy)
 
 defineExpose({
   focus: focusInput,
   blur: blurInput,
   select: selectInput,
 })
+
+const handleChange = (e: Event) => {
+  emit('change', e)
+  if (isLazy.value) {
+    const target = e.target as HTMLTextAreaElement | HTMLInputElement
+    value.value = target.value
+  }
+}
+
+const handleInput = (e: Event) => {
+  emit('input', e)
+  if (!isLazy.value) {
+    const target = e.target as HTMLTextAreaElement | HTMLInputElement
+    value.value = target.value
+  }
+}
 
 </script>
